@@ -2,7 +2,7 @@ var textInput = document.getElementById('text');
 var form = document.getElementById('form');
 
 function getText(uuid, encryptionKey) {
-	$.ajax({
+    $.ajax({
         url: '/secret/'+uuid,
         timeout: 90000,
         type: 'GET',
@@ -21,19 +21,19 @@ function getText(uuid, encryptionKey) {
 }
 
 function postText() {
-	PasswordGenerator.length = 24;
+    PasswordGenerator.length = 24;
     PasswordGenerator.symbols = false;
     var encryptionKey = PasswordGenerator.generate();
     var encryptedText = '' + CryptoJS.AES.encrypt(textInput.value, encryptionKey);
 
-	$.ajax({
+    $.ajax({
         url: '/secret',
         timeout: 90000,
         type: 'POST',
         dataType: "json",
         contentType: 'application/json',
         data: JSON.stringify({
-        	text: encryptedText
+            text: encryptedText
         }),
         error: function(jqXHR, textStatus, errorThrown) {
             toastr.error(`Failed to save text (HTTP ${jqXHR.status}): ${jqXHR.responseText}`, null, {timeOut: 2000, extendedTimeOut: 1000});
@@ -48,8 +48,8 @@ function postText() {
 
 
 form.onsubmit=function(e) {
-	e.preventDefault();
-	postText();
+    e.preventDefault();
+    postText();
 }
 
 var uuidMatch = window.location.pathname.match(/([a-zA-Z0-9-]+)/);
